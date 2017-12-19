@@ -67,6 +67,14 @@ class SetupCommand extends Command
                 'command' => 'migrate',
                 'params' => [],
             ],
+            [
+                'description' => 'Publish config',
+                'command' => 'vendor:publish',
+                'params' => [
+                    '--provider' => 'InetStudio\Meta\Providers\MetaServiceProvider',
+                    '--tag' => 'config',
+                ],
+            ],
         ];
     }
 }
