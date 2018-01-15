@@ -25,6 +25,7 @@ class MetaServiceProvider extends ServiceProvider
     {
         $this->registerConsoleCommands();
         $this->registerPublishes();
+        $this->registerViews();
         $this->registerEvents();
     }
 
@@ -71,6 +72,16 @@ class MetaServiceProvider extends ServiceProvider
                 ], 'migrations');
             }
         }
+    }
+
+    /**
+     * Регистрация представлений.
+     *
+     * @return void
+     */
+    protected function registerViews(): void
+    {
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'admin.module.meta');
     }
 
     /**

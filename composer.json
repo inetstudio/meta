@@ -20,7 +20,8 @@
     "extra": {
       "laravel": {
         "providers": [
-          "InetStudio\\Meta\\Providers\\MetaServiceProvider"
+          "InetStudio\\Meta\\Providers\\MetaServiceProvider",
+          "InetStudio\\Meta\\Providers\\FormBuilderServiceProvider",
         ]
       }
     }
