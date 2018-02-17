@@ -167,6 +167,8 @@ class MetaService implements FrontMetaServiceContract
                 'properties' => [
                     'url' => ($object->slug == 'index') ? url('/') : url($object->href),
                     'image' => $image,
+                    'image:width' => '968',
+                    'image:height' => '475',
                 ],
             ]);
         });
