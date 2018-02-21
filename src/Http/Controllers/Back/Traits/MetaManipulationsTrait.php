@@ -2,7 +2,7 @@
 
 namespace InetStudio\Meta\Http\Controllers\Back\Traits;
 
-use InetStudio\Meta\Events\UpdateMetaEvent;
+use InetStudio\Meta\Events\Back\UpdateMetaEvent;
 
 trait MetaManipulationsTrait
 {

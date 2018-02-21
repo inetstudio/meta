@@ -3,7 +3,7 @@
 namespace InetStudio\Meta\Listeners;
 
 use Illuminate\Support\Facades\Cache;
-use InetStudio\Meta\Events\UpdateMetaEvent;
+use InetStudio\Meta\Events\Back\UpdateMetaEvent;
 
 class ClearMetaCacheListener
 {

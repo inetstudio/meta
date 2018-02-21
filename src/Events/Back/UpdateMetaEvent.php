@@ -1,10 +1,14 @@
 <?php
 
-namespace InetStudio\Meta\Events;
+namespace InetStudio\Meta\Events\Back;
 
 use Illuminate\Queue\SerializesModels;
+use InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract;
 
-class UpdateMetaEvent
+/**
+ * Class UpdateMetaEvent.
+ */
+class UpdateMetaEvent implements UpdateMetaEventContract
 {
     use SerializesModels;
 

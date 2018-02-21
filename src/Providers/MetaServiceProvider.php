@@ -5,7 +5,7 @@ namespace InetStudio\Meta\Providers;
 use Illuminate\Support\Facades\Event;
 use InetStudio\Meta\Models\MetaModel;
 use Illuminate\Support\ServiceProvider;
-use InetStudio\Meta\Events\UpdateMetaEvent;
+use InetStudio\Meta\Events\Back\UpdateMetaEvent;
 use InetStudio\Meta\Console\Commands\SetupCommand;
 use InetStudio\Meta\Listeners\ClearMetaCacheListener;
 use InetStudio\Meta\Contracts\Models\MetaModelContract;
@@ -102,6 +102,11 @@ class MetaServiceProvider extends ServiceProvider
     public function registerBindings(): void
     {
         $this->app->bind(MetaModelContract::class, MetaModel::class);
+
+        // Events
+        $this->app->bind('InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract', 'InetStudio\Meta\Events\Back\UpdateMetaEvent');
+
+        // Services
         $this->app->singleton(BackMetaServiceContract::class, BackMetaService::class);
         $this->app->singleton(FrontMetaServiceContract::class, FrontMetaService::class);
     }

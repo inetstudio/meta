@@ -126,4 +126,23 @@ class MetaService implements BackMetaServiceContract
     {
         return $metable->meta()->delete();
     }
+
+    /**
+     * Сохраняем мета теги.
+     *
+     * @param $request
+     * @param MetableContract $metable
+     */
+    public function attachToObject($request, MetableContract $metable): void
+    {
+        if ($request->filled('meta')) {
+            foreach ($request->get('meta') as $key => $value) {
+                $metable->updateMeta($key, $value);
+            }
+
+            event(app()->makeWith('InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract', [
+                'object' => $metable,
+            ]));
+        }
+    }
 }
