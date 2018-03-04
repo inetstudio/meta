@@ -10,8 +10,7 @@ use Arcanedev\SeoHelper\Entities\Description;
 use Arcanedev\SeoHelper\Entities\OpenGraph\Graph;
 
 /**
- * Interface MetaServiceContract
- * @package InetStudio\Meta\Contracts\Services\Front
+ * Interface MetaServiceContract.
  */
 interface MetaServiceContract
 {

@@ -3,8 +3,7 @@
 namespace InetStudio\Meta\Contracts\Models\Traits;
 
 /**
- * Interface MetableContract
- * @package InetStudio\Meta\Contracts\Models\Traits
+ * Interface MetableContract.
  */
 interface MetableContract
 {

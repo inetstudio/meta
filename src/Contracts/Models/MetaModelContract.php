@@ -3,8 +3,7 @@
 namespace InetStudio\Meta\Contracts\Models;
 
 /**
- * Interface MetaModelContract
- * @package InetStudio\Meta\Contracts\Models
+ * Interface MetaModelContract.
  */
 interface MetaModelContract
 {
