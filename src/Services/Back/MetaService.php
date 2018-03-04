@@ -71,7 +71,7 @@ class MetaService implements BackMetaServiceContract
         }
 
         return $meta->update([
-            'value' => $newValue
+            'value' => $newValue,
         ]);
     }
 

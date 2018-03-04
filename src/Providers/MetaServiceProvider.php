@@ -3,16 +3,10 @@
 namespace InetStudio\Meta\Providers;
 
 use Illuminate\Support\Facades\Event;
-use InetStudio\Meta\Models\MetaModel;
 use Illuminate\Support\ServiceProvider;
 use InetStudio\Meta\Events\Back\UpdateMetaEvent;
 use InetStudio\Meta\Console\Commands\SetupCommand;
 use InetStudio\Meta\Listeners\ClearMetaCacheListener;
-use InetStudio\Meta\Contracts\Models\MetaModelContract;
-use InetStudio\Meta\Services\Back\MetaService as BackMetaService;
-use InetStudio\Meta\Services\Front\MetaService as FrontMetaService;
-use InetStudio\Meta\Contracts\Services\Back\MetaServiceContract as BackMetaServiceContract;
-use InetStudio\Meta\Contracts\Services\Front\MetaServiceContract as FrontMetaServiceContract;
 
 class MetaServiceProvider extends ServiceProvider
 {

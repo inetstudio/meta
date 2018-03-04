@@ -5,8 +5,7 @@ namespace InetStudio\Meta\Contracts\Services\Back;
 use InetStudio\Meta\Contracts\Models\Traits\MetableContract;
 
 /**
- * Interface MetaServiceContract
- * @package InetStudio\Meta\Contracts\Services\Back
+ * Interface MetaServiceContract.
  */
 interface MetaServiceContract
 {

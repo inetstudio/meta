@@ -49,7 +49,6 @@ trait Metable
     public function updateMeta($key, $newValue)
     {
         return app(BackMetaServiceContract::class)->updateMeta($this, $key, $newValue);
-
     }
 
     /**
@@ -62,7 +61,6 @@ trait Metable
     public function addMeta($key, $value)
     {
         return app(BackMetaServiceContract::class)->addMeta($this, $key, $value);
-
     }
 
     /**
