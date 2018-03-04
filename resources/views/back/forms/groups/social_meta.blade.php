@@ -35,7 +35,8 @@
                                 'title' => 'og:image',
                             ],
                             'image' => [
-                                'src' => isset($ogImageMedia) ? url($ogImageMedia->getUrl()) : '',
+                                'filepath' => isset($ogImageMedia) ? url($ogImageMedia->getUrl()) : '',
+                                'filename' => isset($ogImageMedia) ? $ogImageMedia->file_name : '',
                             ],
                             'crops' => [
                                 [

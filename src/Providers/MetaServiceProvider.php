@@ -101,13 +101,14 @@ class MetaServiceProvider extends ServiceProvider
      */
     public function registerBindings(): void
     {
-        $this->app->bind(MetaModelContract::class, MetaModel::class);
-
         // Events
         $this->app->bind('InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract', 'InetStudio\Meta\Events\Back\UpdateMetaEvent');
 
+        // Models
+        $this->app->bind('InetStudio\Meta\Contracts\Models\MetaModelContract', 'InetStudio\Meta\Models\MetaModel');
+
         // Services
-        $this->app->singleton(BackMetaServiceContract::class, BackMetaService::class);
-        $this->app->singleton(FrontMetaServiceContract::class, FrontMetaService::class);
+        $this->app->singleton('InetStudio\Meta\Contracts\Services\Back\MetaServiceContract', 'InetStudio\Meta\Services\Back\MetaService');
+        $this->app->singleton('InetStudio\Meta\Contracts\Services\Front\MetaServiceContract', 'InetStudio\Meta\Services\Front\MetaService');
     }
 }
