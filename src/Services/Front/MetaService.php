@@ -11,12 +11,16 @@ use Arcanedev\SeoHelper\Entities\Description;
 use Arcanedev\SeoHelper\Entities\OpenGraph\Graph;
 use InetStudio\Meta\Contracts\Services\Front\MetaServiceContract as FrontMetaServiceContract;
 
+/**
+ * Class MetaService.
+ */
 class MetaService implements FrontMetaServiceContract
 {
     /**
      * Получаем мета теги страницы.
      *
      * @param $object
+     *
      * @return array
      */
     public function getAllTags($object): array
@@ -35,6 +39,7 @@ class MetaService implements FrontMetaServiceContract
                 $data['robots'] = $this->getRobots($object);
                 $data['webmasters'] = $this->getWebmasters();
                 $data['openGraph'] = $this->getOpenGraph($object);
+                $data['canonical'] = $this->getCanonical($object);
 
                 return $data;
             });
@@ -63,7 +68,8 @@ class MetaService implements FrontMetaServiceContract
      * Возвращаем заголовок.
      *
      * @param $object
-     * @return Title
+     *
+     * @return Title|null
      */
     public function getTitle($object): ?Title
     {
@@ -80,7 +86,8 @@ class MetaService implements FrontMetaServiceContract
      * Возвращаем описание.
      *
      * @param $object
-     * @return Description
+     *
+     * @return Description|null
      */
     public function getDescription($object): ?Description
     {
@@ -97,6 +104,7 @@ class MetaService implements FrontMetaServiceContract
      * Возвращаем тег индексации.
      *
      * @param $object
+     *
      * @return MiscTags|null
      */
     public function getRobots($object): ?MiscTags
@@ -118,6 +126,7 @@ class MetaService implements FrontMetaServiceContract
      * Возвращаем ключевые слова.
      *
      * @param $object
+     *
      * @return Keywords|null
      */
     public function getKeywords($object): ?Keywords
@@ -148,6 +157,7 @@ class MetaService implements FrontMetaServiceContract
      * Возвращаем Open Graph теги.
      *
      * @param $object
+     *
      * @return Graph
      */
     public function getOpenGraph($object): Graph
@@ -165,10 +175,28 @@ class MetaService implements FrontMetaServiceContract
                 'title' => ($title) ? $title : '',
                 'description' => ($description) ? $description : '',
                 'properties' => [
-                    'url' => ($object->slug == 'index') ? url('/') : url($object->href),
+                    'url' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
                     'image' => $image,
                     'image:width' => '968',
                     'image:height' => '475',
+                ],
+            ]);
+        });
+    }
+
+    /**
+     * Возвращаем canonical тег.
+     *
+     * @return MiscTags
+     */
+    public function getCanonical($object): MiscTags
+    {
+        $cacheKey = 'MetaService_getCanonical_'.md5(get_class($object).$object->id);
+
+        return Cache::remember($cacheKey, 1440, function () use ($object) {
+            return new MiscTags([
+                'default' => [
+                    'canonical' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
                 ],
             ]);
         });
@@ -179,6 +207,7 @@ class MetaService implements FrontMetaServiceContract
      *
      * @param $object
      * @param string $key
+     *
      * @return string
      */
     private function getTagValue($object, string $key): string
@@ -213,6 +242,7 @@ class MetaService implements FrontMetaServiceContract
      *
      * @param $object
      * @param string $key
+     *
      * @return string
      */
     private function getImagePath($object, string $key): string

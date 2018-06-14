@@ -5,6 +5,9 @@ namespace InetStudio\Meta\Services\Back;
 use InetStudio\Meta\Contracts\Models\Traits\MetableContract;
 use InetStudio\Meta\Contracts\Services\Back\MetaServiceContract as BackMetaServiceContract;
 
+/**
+ * Class MetaService.
+ */
 class MetaService implements BackMetaServiceContract
 {
     /**
@@ -12,6 +15,7 @@ class MetaService implements BackMetaServiceContract
      *
      * @param MetableContract $metable
      * @param string $key
+     *
      * @return mixed
      */
     public function hasMeta(MetableContract $metable, string $key): bool
@@ -25,6 +29,7 @@ class MetaService implements BackMetaServiceContract
      * Получаем все мета теги.
      *
      * @param MetableContract $metable
+     *
      * @return mixed
      */
     public function getAllMeta(MetableContract $metable)
@@ -39,6 +44,7 @@ class MetaService implements BackMetaServiceContract
      * @param string $key
      * @param null $default
      * @param false $returnObject
+     *
      * @return mixed
      */
     public function getMeta(MetableContract $metable, string $key, $default = null, $returnObject = false)
@@ -60,6 +66,7 @@ class MetaService implements BackMetaServiceContract
      * @param MetableContract $metable
      * @param string $key
      * @param $newValue
+     *
      * @return mixed
      */
     public function updateMeta(MetableContract $metable, string $key, $newValue)
@@ -81,6 +88,7 @@ class MetaService implements BackMetaServiceContract
      * @param MetableContract $metable
      * @param string $key
      * @param $value
+     *
      * @return mixed
      */
     public function addMeta(MetableContract $metable, string $key, $value)
@@ -109,6 +117,7 @@ class MetaService implements BackMetaServiceContract
      *
      * @param MetableContract $metable
      * @param string $key
+     *
      * @return mixed
      */
     public function deleteMeta(MetableContract $metable, string $key)
@@ -120,6 +129,7 @@ class MetaService implements BackMetaServiceContract
      * Удаляем все мета теги.
      *
      * @param MetableContract $metable
+     *
      * @return mixed
      */
     public function deleteAllMeta(MetableContract $metable)
@@ -131,6 +141,7 @@ class MetaService implements BackMetaServiceContract
      * Сохраняем мета теги.
      *
      * @param $request
+     *
      * @param MetableContract $metable
      */
     public function attachToObject($request, MetableContract $metable): void

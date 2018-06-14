@@ -2,9 +2,9 @@
 
 namespace InetStudio\Meta\Models\Traits;
 
-use InetStudio\Meta\Contracts\Models\MetaModelContract;
-use InetStudio\Meta\Contracts\Services\Back\MetaServiceContract as BackMetaServiceContract;
-
+/**
+ * Trait Metable.
+ */
 trait Metable
 {
     /**
@@ -14,7 +14,7 @@ trait Metable
      */
     public function meta()
     {
-        return $this->morphMany(app(MetaModelContract::class), 'metable');
+        return $this->morphMany(app()->make('InetStudio\Meta\Contracts\Models\MetaModelContract'), 'metable');
     }
 
     /**
@@ -24,7 +24,7 @@ trait Metable
      */
     public function getAllMeta()
     {
-        return app(BackMetaServiceContract::class)->getAllMeta($this);
+        return app()->make('InetStudio\Meta\Contracts\Services\Back\MetaServiceContract')->getAllMeta($this);
     }
 
     /**
@@ -32,11 +32,12 @@ trait Metable
      *
      * @param string $key
      * @param null $default
+     *
      * @return mixed
      */
     public function getMeta($key, $default = null)
     {
-        return app(BackMetaServiceContract::class)->getMeta($this, $key, $default);
+        return app()->make('InetStudio\Meta\Contracts\Services\Back\MetaServiceContract')->getMeta($this, $key, $default);
     }
 
     /**
@@ -44,11 +45,12 @@ trait Metable
      *
      * @param string $key
      * @param $newValue
+     *
      * @return mixed
      */
     public function updateMeta($key, $newValue)
     {
-        return app(BackMetaServiceContract::class)->updateMeta($this, $key, $newValue);
+        return app()->make('InetStudio\Meta\Contracts\Services\Back\MetaServiceContract')->updateMeta($this, $key, $newValue);
     }
 
     /**
@@ -56,22 +58,24 @@ trait Metable
      *
      * @param string $key
      * @param $value
+     *
      * @return mixed
      */
     public function addMeta($key, $value)
     {
-        return app(BackMetaServiceContract::class)->addMeta($this, $key, $value);
+        return app()->make('InetStudio\Meta\Contracts\Services\Back\MetaServiceContract')->addMeta($this, $key, $value);
     }
 
     /**
      * Удаляем мета тег.
      *
      * @param string $key
+     *
      * @return mixed
      */
     public function deleteMeta($key)
     {
-        return app(BackMetaServiceContract::class)->deleteMeta($this, $key);
+        return app()->make('InetStudio\Meta\Contracts\Services\Back\MetaServiceContract')->deleteMeta($this, $key);
     }
 
     /**
@@ -81,6 +85,6 @@ trait Metable
      */
     public function deleteAllMeta()
     {
-        return app(BackMetaServiceContract::class)->deleteAllMeta($this);
+        return app()->make('InetStudio\Meta\Contracts\Services\Back\MetaServiceContract')->deleteAllMeta($this);
     }
 }

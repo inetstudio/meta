@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Venturecraft\Revisionable\RevisionableTrait;
 use InetStudio\Meta\Contracts\Models\MetaModelContract;
 
+/**
+ * Class MetaModel.
+ */
 class MetaModel extends Model implements MetaModelContract
 {
     use SoftDeletes;

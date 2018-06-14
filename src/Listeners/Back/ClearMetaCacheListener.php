@@ -1,27 +1,24 @@
 <?php
 
-namespace InetStudio\Meta\Listeners;
+namespace InetStudio\Meta\Listeners\Back;
 
 use Illuminate\Support\Facades\Cache;
-use InetStudio\Meta\Events\Back\UpdateMetaEvent;
+use InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract;
+use InetStudio\Meta\Contracts\Listeners\Back\ClearMetaCacheListenerContract;
 
-class ClearMetaCacheListener
+/**
+ * Class ClearMetaCacheListener.
+ */
+class ClearMetaCacheListener implements ClearMetaCacheListenerContract
 {
-    /**
-     * ClearMetaCacheListener constructor.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      *
-     * @param UpdateMetaEvent $event
+     * @param UpdateMetaEventContract $event
+     *
      * @return void
      */
-    public function handle(UpdateMetaEvent $event)
+    public function handle(UpdateMetaEventContract $event)
     {
         $object = $event->object;
 
@@ -33,5 +30,6 @@ class ClearMetaCacheListener
         Cache::forget('MetaService_getRobots_'.$cacheKey);
         Cache::forget('MetaService_getKeywords_'.$cacheKey);
         Cache::forget('MetaService_getOpenGraph_'.$cacheKey);
+        Cache::forget('MetaService_getCanonical_'.$cacheKey);
     }
 }

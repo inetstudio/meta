@@ -50,4 +50,6 @@ return [
             'preview' => 'preview_3_2',
         ],
     ],
+
+    'trailing_slash' => false,
 ];

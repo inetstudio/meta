@@ -4,10 +4,10 @@ namespace InetStudio\Meta\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use InetStudio\Meta\Events\Back\UpdateMetaEvent;
-use InetStudio\Meta\Console\Commands\SetupCommand;
-use InetStudio\Meta\Listeners\ClearMetaCacheListener;
 
+/**
+ * Class MetaServiceProvider.
+ */
 class MetaServiceProvider extends ServiceProvider
 {
     /**
@@ -24,16 +24,6 @@ class MetaServiceProvider extends ServiceProvider
     }
 
     /**
-     * Регистрация привязки в контейнере.
-     *
-     * @return void
-     */
-    public function register(): void
-    {
-        $this->registerBindings();
-    }
-
-    /**
      * Регистрация команд.
      *
      * @return void
@@ -42,7 +32,7 @@ class MetaServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                SetupCommand::class,
+                'InetStudio\Meta\Console\Commands\SetupCommand',
             ]);
         }
     }
@@ -85,24 +75,9 @@ class MetaServiceProvider extends ServiceProvider
      */
     protected function registerEvents(): void
     {
-        Event::listen(UpdateMetaEvent::class, ClearMetaCacheListener::class);
-    }
-
-    /**
-     * Регистрация привязок, алиасов и сторонних провайдеров сервисов.
-     *
-     * @return void
-     */
-    public function registerBindings(): void
-    {
-        // Events
-        $this->app->bind('InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract', 'InetStudio\Meta\Events\Back\UpdateMetaEvent');
-
-        // Models
-        $this->app->bind('InetStudio\Meta\Contracts\Models\MetaModelContract', 'InetStudio\Meta\Models\MetaModel');
-
-        // Services
-        $this->app->singleton('InetStudio\Meta\Contracts\Services\Back\MetaServiceContract', 'InetStudio\Meta\Services\Back\MetaService');
-        $this->app->singleton('InetStudio\Meta\Contracts\Services\Front\MetaServiceContract', 'InetStudio\Meta\Services\Front\MetaService');
+        Event::listen(
+            'InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract',
+            'InetStudio\Meta\Contracts\Listeners\ClearMetaCacheListenerContract'
+        );
     }
 }
