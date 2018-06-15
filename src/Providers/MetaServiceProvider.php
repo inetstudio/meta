@@ -48,6 +48,10 @@ class MetaServiceProvider extends ServiceProvider
             __DIR__.'/../../config/meta.php' => config_path('meta.php'),
         ], 'config');
 
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/services.php', 'services'
+        );
+
         if ($this->app->runningInConsole()) {
             if (! class_exists('CreateMetaTables')) {
                 $timestamp = date('Y_m_d_His', time());

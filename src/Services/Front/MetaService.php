@@ -148,8 +148,8 @@ class MetaService implements FrontMetaServiceContract
     public function getWebmasters(): Webmasters
     {
         return Webmasters::make([
-            'yandex' => config('services.yandex.webmaster.verification_code'),
-            'google' => config('services.google.webmaster.verification_code'),
+            'yandex' => config('services.webmaster.yandex.verification_code'),
+            'google' => config('services.webmaster.google.verification_code'),
         ]);
     }
 
