@@ -1,6 +1,11 @@
-<?
+<?php
 
 return [
+
+    /*
+     * Данные для подтверждения владения сайтом.
+     */
+
     'webmaster' => [
         'yandex' => [
             'verification_code' => env('YANDEX_WEBMASTER_VERIFY_CODE'),
