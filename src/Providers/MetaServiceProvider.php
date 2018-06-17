@@ -81,7 +81,7 @@ class MetaServiceProvider extends ServiceProvider
     {
         Event::listen(
             'InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract',
-            'InetStudio\Meta\Contracts\Listeners\ClearMetaCacheListenerContract'
+            'InetStudio\Meta\Contracts\Listeners\Back\ClearMetaCacheListenerContract'
         );
     }
 }
