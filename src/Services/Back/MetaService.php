@@ -148,7 +148,7 @@ class MetaService implements BackMetaServiceContract
     {
         if ($request->filled('meta')) {
             foreach ($request->get('meta') as $key => $value) {
-                $metable->updateMeta($key, $value);
+                $metable->updateMeta($key, (string) $value);
             }
 
             event(app()->makeWith('InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract', [

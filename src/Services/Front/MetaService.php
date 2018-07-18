@@ -169,6 +169,8 @@ class MetaService implements FrontMetaServiceContract
             $description = $this->getTagValue($object, 'og_description');
             $image = $this->getImagePath($object, 'og_image');
 
+            list($width, $height) = getimagesize($image);
+
             return new Graph([
                 'type' => 'website',
                 'site-name' => config('app.name'),
@@ -177,8 +179,8 @@ class MetaService implements FrontMetaServiceContract
                 'properties' => [
                     'url' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
                     'image' => $image,
-                    'image:width' => '968',
-                    'image:height' => '475',
+                    'image:width' => $width,
+                    'image:height' => $height,
                 ],
             ]);
         });
