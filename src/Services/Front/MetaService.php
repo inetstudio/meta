@@ -169,19 +169,27 @@ class MetaService implements FrontMetaServiceContract
             $description = $this->getTagValue($object, 'og_description');
             $image = $this->getImagePath($object, 'og_image');
 
-            list($width, $height) = getimagesize($image);
+            if ($image != '') {
+                list($width, $height) = getimagesize($image);
+
+                $imageData = [
+                    'image' => $image,
+                    'image:width' => $width,
+                    'image:height' => $height,
+                ];
+            } else {
+                $imageData = [];
+            }
+
 
             return new Graph([
                 'type' => 'website',
                 'site-name' => config('app.name'),
                 'title' => ($title) ? $title : '',
                 'description' => ($description) ? $description : '',
-                'properties' => [
+                'properties' => array_merge([
                     'url' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
-                    'image' => $image,
-                    'image:width' => $width,
-                    'image:height' => $height,
-                ],
+                ], $imageData),
             ]);
         });
     }
