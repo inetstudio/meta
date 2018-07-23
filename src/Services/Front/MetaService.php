@@ -174,13 +174,12 @@ class MetaService implements FrontMetaServiceContract
 
                 $imageData = [
                     'image' => $image,
-                    'image:width' => $width,
-                    'image:height' => $height,
+                    'image:width' => (string) $width,
+                    'image:height' => (string) $height,
                 ];
             } else {
                 $imageData = [];
             }
-
 
             return new Graph([
                 'type' => 'website',
