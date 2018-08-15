@@ -15,7 +15,7 @@ class CreateMetaTables extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('metable_id');
+            $table->index(['metable_id', 'metable_type']);
             $table->index('key');
         });
     }

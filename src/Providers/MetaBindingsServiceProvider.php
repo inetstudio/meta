@@ -9,19 +9,19 @@ use Illuminate\Support\ServiceProvider;
  */
 class MetaBindingsServiceProvider extends ServiceProvider
 {
+    /**
+    * @var  bool
+    */
     protected $defer = true;
 
+    /**
+    * @var  array
+    */
     public $bindings = [
-        // Events
         'InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract' => 'InetStudio\Meta\Events\Back\UpdateMetaEvent',
-
-        // Listeners
         'InetStudio\Meta\Contracts\Listeners\Back\ClearMetaCacheListenerContract' => 'InetStudio\Meta\Listeners\Back\ClearMetaCacheListener',
-
-        // Models
         'InetStudio\Meta\Contracts\Models\MetaModelContract' => 'InetStudio\Meta\Models\MetaModel',
-
-        // Services
+        'InetStudio\Meta\Contracts\Models\Traits\MetableContract' => 'InetStudio\Meta\Models\Traits\Metable',
         'InetStudio\Meta\Contracts\Services\Back\MetaServiceContract' => 'InetStudio\Meta\Services\Back\MetaService',
         'InetStudio\Meta\Contracts\Services\Front\MetaServiceContract' => 'InetStudio\Meta\Services\Front\MetaService',
     ];
@@ -29,16 +29,10 @@ class MetaBindingsServiceProvider extends ServiceProvider
     /**
      * Получить сервисы от провайдера.
      *
-     * @return array
+     * @return  array
      */
-    public function provides(): array
+    public function provides()
     {
-        return [
-            'InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract',
-            'InetStudio\Meta\Contracts\Listeners\Back\ClearMetaCacheListenerContract',
-            'InetStudio\Meta\Contracts\Models\MetaModelContract',
-            'InetStudio\Meta\Contracts\Services\Back\MetaServiceContract',
-            'InetStudio\Meta\Contracts\Services\Front\MetaServiceContract',
-        ];
+        return array_keys($this->bindings);
     }
 }
