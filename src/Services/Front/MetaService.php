@@ -28,21 +28,13 @@ class MetaService implements FrontMetaServiceContract
         $tags = [];
 
         if ($object) {
-            $cacheKey = 'MetaService_getAllTags_'.md5(get_class($object).$object->id);
-
-            $tags = Cache::remember($cacheKey, 1440, function () use ($object) {
-                $data = [];
-
-                $data['title'] = $this->getTitle($object);
-                $data['description'] = $this->getDescription($object);
-                $data['keywords'] = $this->getKeywords($object);
-                $data['robots'] = $this->getRobots($object);
-                $data['webmasters'] = $this->getWebmasters();
-                $data['openGraph'] = $this->getOpenGraph($object);
-                $data['canonical'] = $this->getCanonical($object);
-
-                return $data;
-            });
+            $tags['title'] = $this->getTitle($object);
+            $tags['description'] = $this->getDescription($object);
+            $tags['keywords'] = $this->getKeywords($object);
+            $tags['robots'] = $this->getRobots($object);
+            $tags['webmasters'] = $this->getWebmasters();
+            $tags['openGraph'] = $this->getOpenGraph($object);
+            $tags['canonical'] = $this->getCanonical($object);
         }
 
         $tags['csrf-token'] = $this->getCSRFMeta();
@@ -73,13 +65,9 @@ class MetaService implements FrontMetaServiceContract
      */
     public function getTitle($object): ?Title
     {
-        $cacheKey = 'MetaService_getTitle_'.md5(get_class($object).$object->id);
+        $title = $this->getTagValue($object, 'title');
 
-        return Cache::remember($cacheKey, 1440, function () use ($object) {
-            $title = $this->getTagValue($object, 'title');
-
-            return ($title) ? Title::make($title, '', '')->setLast()->setMax(999) : null;
-        });
+        return ($title) ? Title::make($title, '', '')->setLast()->setMax(999) : null;
     }
 
     /**
@@ -91,13 +79,9 @@ class MetaService implements FrontMetaServiceContract
      */
     public function getDescription($object): ?Description
     {
-        $cacheKey = 'MetaService_getDescription_'.md5(get_class($object).$object->id);
+        $description = $this->getTagValue($object, 'description');
 
-        return Cache::remember($cacheKey, 1440, function () use ($object) {
-            $description = $this->getTagValue($object, 'description');
-
-            return ($description) ? Description::make($description)->setMax(999) : null;
-        });
+        return ($description) ? Description::make($description)->setMax(999) : null;
     }
 
     /**
@@ -109,17 +93,13 @@ class MetaService implements FrontMetaServiceContract
      */
     public function getRobots($object): ?MiscTags
     {
-        $cacheKey = 'MetaService_getRobots_'.md5(get_class($object).$object->id);
+        $robots = $this->getTagValue($object, 'robots');
 
-        return Cache::remember($cacheKey, 1440, function () use ($object) {
-            $robots = $this->getTagValue($object, 'robots');
-
-            return ($robots) ? new MiscTags([
-                'default'   => [
-                    'robots' => $robots,
-                ],
-            ]) : null;
-        });
+        return ($robots) ? new MiscTags([
+            'default'   => [
+                'robots' => $robots,
+            ],
+        ]) : null;
     }
 
     /**
@@ -131,13 +111,9 @@ class MetaService implements FrontMetaServiceContract
      */
     public function getKeywords($object): ?Keywords
     {
-        $cacheKey = 'MetaService_getKeywords_'.md5(get_class($object).$object->id);
+        $keywords = $this->getTagValue($object, 'keywords');
 
-        return Cache::remember($cacheKey, 1440, function () use ($object) {
-            $keywords = $this->getTagValue($object, 'keywords');
-
-            return ($keywords) ? Keywords::make($keywords) : null;
-        });
+        return ($keywords) ? Keywords::make($keywords) : null;
     }
 
     /**
@@ -162,35 +138,27 @@ class MetaService implements FrontMetaServiceContract
      */
     public function getOpenGraph($object): Graph
     {
-        $cacheKey = 'MetaService_getOpenGraph_'.md5(get_class($object).$object->id);
+        $title = $this->getTagValue($object, 'og_title');
+        $description = $this->getTagValue($object, 'og_description');
+        $image = $this->getImagePath($object, 'og_image');
 
-        return Cache::remember($cacheKey, 1440, function () use ($object) {
-            $title = $this->getTagValue($object, 'og_title');
-            $description = $this->getTagValue($object, 'og_description');
-            $image = $this->getImagePath($object, 'og_image');
+        if ($image != '') {
+            $imageData = [
+                'image' => $image,
+            ];
+        } else {
+            $imageData = [];
+        }
 
-            if ($image != '') {
-                list($width, $height) = getimagesize($image);
-
-                $imageData = [
-                    'image' => $image,
-                    'image:width' => (string) $width,
-                    'image:height' => (string) $height,
-                ];
-            } else {
-                $imageData = [];
-            }
-
-            return new Graph([
-                'type' => 'website',
-                'site-name' => config('app.name'),
-                'title' => ($title) ? $title : '',
-                'description' => ($description) ? $description : '',
-                'properties' => array_merge([
-                    'url' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
-                ], $imageData),
-            ]);
-        });
+        return new Graph([
+            'type' => 'website',
+            'site-name' => config('app.name'),
+            'title' => ($title) ? $title : '',
+            'description' => ($description) ? $description : '',
+            'properties' => array_merge([
+                'url' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
+            ], $imageData),
+        ]);
     }
 
     /**
@@ -200,15 +168,11 @@ class MetaService implements FrontMetaServiceContract
      */
     public function getCanonical($object): MiscTags
     {
-        $cacheKey = 'MetaService_getCanonical_'.md5(get_class($object).$object->id);
-
-        return Cache::remember($cacheKey, 1440, function () use ($object) {
-            return new MiscTags([
-                'default' => [
-                    'canonical' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
-                ],
-            ]);
-        });
+        return new MiscTags([
+            'default' => [
+                'canonical' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
+            ],
+        ]);
     }
 
     /**
@@ -228,10 +192,10 @@ class MetaService implements FrontMetaServiceContract
         }
 
         foreach ($data['meta'] as $tagKey) {
-            $value = $object->getMeta($tagKey);
+            $meta = $object->meta->where('key', $tagKey)->first();
 
-            if ($value) {
-                return $value;
+            if ($meta) {
+                return $meta->value;
             }
         }
 
