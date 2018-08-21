@@ -2,7 +2,6 @@
 
 namespace InetStudio\Meta\Services\Front;
 
-use Illuminate\Support\Facades\Cache;
 use Arcanedev\SeoHelper\Entities\Title;
 use Arcanedev\SeoHelper\Entities\Keywords;
 use Arcanedev\SeoHelper\Entities\MiscTags;
@@ -194,7 +193,7 @@ class MetaService implements FrontMetaServiceContract
         foreach ($data['meta'] as $tagKey) {
             $meta = $object->meta->where('key', $tagKey)->first();
 
-            if ($meta) {
+            if ($meta && $meta->value != '') {
                 return $meta->value;
             }
         }
