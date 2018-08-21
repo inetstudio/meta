@@ -2,7 +2,6 @@
 
 namespace InetStudio\Meta\Providers;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -20,7 +19,6 @@ class MetaServiceProvider extends ServiceProvider
         $this->registerConsoleCommands();
         $this->registerPublishes();
         $this->registerViews();
-        $this->registerEvents();
     }
 
     /**
@@ -70,18 +68,5 @@ class MetaServiceProvider extends ServiceProvider
     protected function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'admin.module.meta');
-    }
-
-    /**
-     * Регистрация событий.
-     *
-     * @return void
-     */
-    protected function registerEvents(): void
-    {
-        Event::listen(
-            'InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract',
-            'InetStudio\Meta\Contracts\Listeners\Back\ClearMetaCacheListenerContract'
-        );
     }
 }
