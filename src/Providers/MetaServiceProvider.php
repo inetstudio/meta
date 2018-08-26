@@ -2,6 +2,7 @@
 
 namespace InetStudio\Meta\Providers;
 
+use Collective\Html\FormBuilder;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -19,6 +20,7 @@ class MetaServiceProvider extends ServiceProvider
         $this->registerConsoleCommands();
         $this->registerPublishes();
         $this->registerViews();
+        $this->registerFormComponents();
     }
 
     /**
@@ -68,5 +70,16 @@ class MetaServiceProvider extends ServiceProvider
     protected function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'admin.module.meta');
+    }
+
+    /**
+     * Регистрация компонентов форм.
+     *
+     * @return void
+     */
+    protected function registerFormComponents()
+    {
+        FormBuilder::component('meta', 'admin.module.meta::back.forms.groups.meta', ['name' => null, 'value' => null, 'attributes' => null]);
+        FormBuilder::component('social_meta', 'admin.module.meta::back.forms.groups.social_meta', ['name' => null, 'value' => null, 'attributes' => null]);
     }
 }
