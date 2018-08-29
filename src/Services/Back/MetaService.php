@@ -150,10 +150,6 @@ class MetaService implements BackMetaServiceContract
             foreach ($request->get('meta') as $key => $value) {
                 $metable->updateMeta($key, (string) $value);
             }
-
-            event(app()->makeWith('InetStudio\Meta\Contracts\Events\Back\UpdateMetaEventContract', [
-                'object' => $metable,
-            ]));
         }
     }
 }
