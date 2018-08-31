@@ -18,17 +18,26 @@
                             'label' => [
                                 'title' => 'Title',
                             ],
+                            'field' => [
+                                'class' => 'form-control countable',
+                            ],
                         ]) !!}
 
                         {!! Form::string('meta[description]', $item->getMeta('description'), [
                             'label' => [
                                 'title' => 'Description',
                             ],
+                            'field' => [
+                                'class' => 'form-control countable',
+                            ],
                         ]) !!}
 
                         {!! Form::string('meta[keywords]', $item->getMeta('keywords'), [
                             'label' => [
                                 'title' => 'Keywords',
+                            ],
+                            'field' => [
+                                'class' => 'form-control countable',
                             ],
                         ]) !!}
 
