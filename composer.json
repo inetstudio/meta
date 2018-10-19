@@ -10,7 +10,7 @@
       }
     ],
     "require": {
-      "arcanedev/seo-helper": "^1.5"
+      "arcanedev/seo-helper": "^1.6"
     },
     "autoload": {
       "psr-4": {
