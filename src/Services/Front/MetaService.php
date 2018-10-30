@@ -163,13 +163,20 @@ class MetaService implements FrontMetaServiceContract
     /**
      * Возвращаем canonical тег.
      *
+     * @param $object
+     *
      * @return MiscTags
      */
     public function getCanonical($object): MiscTags
     {
+        $url = config('app.url')
+            .(($object->slug == 'index') ? '' : '/')
+            .trim(request()->path(), '/')
+            .(config('meta.trailing_slash') ? '/' : '');
+
         return new MiscTags([
             'default' => [
-                'canonical' => ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : ''),
+                'canonical' => $url,
             ],
         ]);
     }
