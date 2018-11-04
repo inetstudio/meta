@@ -169,10 +169,8 @@ class MetaService implements FrontMetaServiceContract
      */
     public function getCanonical($object): MiscTags
     {
-        $url = config('app.url')
-            .(($object->slug == 'index') ? '' : '/')
-            .trim(request()->path(), '/')
-            .(config('meta.trailing_slash') ? '/' : '');
+        $url = ($object->slug == 'index') ? url('/') : url($object->href).(config('meta.trailing_slash') ? '/' : '');
+        $url = str_replace('www.', '', $url);
 
         return new MiscTags([
             'default' => [
