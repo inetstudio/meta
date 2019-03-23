@@ -3,17 +3,13 @@
 namespace InetStudio\Meta\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
 /**
  * Class MetaBindingsServiceProvider.
  */
-class MetaBindingsServiceProvider extends ServiceProvider
+class MetaBindingsServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
-    * @var  bool
-    */
-    protected $defer = true;
-
     /**
     * @var  array
     */
