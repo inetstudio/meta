@@ -42,9 +42,6 @@
                 'label' => [
                     'title' => 'Canonical',
                 ],
-                'field' => [
-                    'class' => 'form-control',
-                ],
             ]) !!}
 
             {!! Form::radios('meta[robots]', $item->getMeta('robots'), [
