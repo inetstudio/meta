@@ -16,7 +16,7 @@ use InetStudio\MetaPackage\Meta\Contracts\Models\MetaModelContract;
 trait HasMeta
 {
     use HasMetaCollection;
-    
+
     /**
      * The queued meta.
      *
