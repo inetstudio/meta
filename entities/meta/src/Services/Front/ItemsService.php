@@ -153,11 +153,7 @@ class ItemsService implements ItemsServiceContract
             ]
             : [];
 
-        $url = ($object->slug == 'index')
-            ? url('/')
-            : url($object->href);
-        $url = trim($url, '/');
-        $url .= (config('meta.trailing_slash')) ? '/' : '';
+        $url = $this->getUrl($object);
 
         return new Graph(
             [
@@ -189,10 +185,7 @@ class ItemsService implements ItemsServiceContract
         if ($canonical) {
             $url = trim($canonical, '/').(config('meta.trailing_slash') ? '/' : '');
         } else {
-            $url = ($object->slug == 'index') ? url('/') : url($object->href).(config(
-                    'meta.trailing_slash'
-                ) ? '/' : '');
-            $url = str_replace('www.', '', $url);
+            $url = $this->getUrl($object);
         }
 
         return new MiscTags(
@@ -264,5 +257,25 @@ class ItemsService implements ItemsServiceContract
         }
 
         return '';
+    }
+
+    /**
+     * Получаем ссылку на страницу.
+     *
+     * @param $object
+     *
+     * @return string
+     */
+    protected function getUrl($object): string
+    {
+        $url = ($object->slug == 'index')
+            ? url('/')
+            : url($object->href);
+
+        $url = trim($url, '/');
+        $url .= (config('meta.trailing_slash')) ? '/' : '';
+        $url = str_replace('www.', '', $url);
+
+        return $url;
     }
 }
