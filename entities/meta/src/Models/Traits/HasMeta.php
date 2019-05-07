@@ -243,7 +243,13 @@ trait HasMeta
      */
     public function attachMeta($meta): self
     {
-        $this->setMeta($meta, 'syncWithoutDetaching');
+        static::$dispatcher->dispatch('inetstudio.meta.attaching', [$this, $meta]);
+
+        foreach ($meta as $key => $value) {
+            $this->updateMeta($key, $value);
+        }
+
+        static::$dispatcher->dispatch('inetstudio.meta.attached', [$this, $meta]);
 
         return $this;
     }
@@ -259,7 +265,17 @@ trait HasMeta
      */
     public function syncMeta($meta): self
     {
-        $this->setMeta($meta, 'sync');
+        static::$dispatcher->dispatch('inetstudio.meta.syncing', [$this, $meta]);
+
+        foreach ($meta as $key => $value) {
+            if ($value === '') {
+                $this->deleteMeta($key);
+            } else {
+                $this->updateMeta($key, $value);
+            }
+        }
+
+        static::$dispatcher->dispatch('inetstudio.meta.synced', [$this, $meta]);
 
         return $this;
     }
@@ -275,50 +291,13 @@ trait HasMeta
      */
     public function detachMeta($meta): self
     {
-        $this->setMeta($meta, 'detach');
+        static::$dispatcher->dispatch('inetstudio.meta.detaching', [$this, $meta]);
+
+        $this->deleteAllMeta();
+
+        static::$dispatcher->dispatch('inetstudio.meta.detached', [$this, $meta]);
 
         return $this;
-    }
-
-    /**
-     * Set the given meta to the model.
-     *
-     * @param  int|string|array|ArrayAccess|MetaModelContract  $meta
-     * @param  string  $action
-     *
-     * @throws BindingResolutionException
-     */
-    protected function setMeta($meta, string $action): void
-    {
-        // Fix exceptional event name
-        $event = $action === 'syncWithoutDetaching' ? 'attach' : $action;
-
-        // Fire the meta syncing event
-        static::$dispatcher->dispatch('inetstudio.meta.'.$event.'ing', [$this, $meta]);
-
-        // Set Meta
-        switch ($action) {
-            case 'attach':
-                foreach ($meta as $key => $value) {
-                    $this->updateMeta($key, $value);
-                }
-                break;
-            case 'detach':
-                $this->deleteAllMeta();
-                break;
-            case 'sync':
-                foreach ($meta as $key => $value) {
-                    if ($value === '') {
-                        $this->deleteMeta($key);
-                    } else {
-                        $this->updateMeta($key, $value);
-                    }
-                }
-                break;
-        }
-
-        // Fire the meta synced event
-        static::$dispatcher->dispatch('inetstudio.meta.'.$event.'ed', [$this, $meta]);
     }
 
     /**

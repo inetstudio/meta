@@ -147,13 +147,17 @@ class ItemsService implements ItemsServiceContract
         $description = $this->getTagValue($object, 'og_description');
         $image = $this->getImagePath($object, 'og_image');
 
-        if ($image != '') {
-            $imageData = [
+        $imageData = ($image != '')
+            ? [
                 'image' => $image,
-            ];
-        } else {
-            $imageData = [];
-        }
+            ]
+            : [];
+
+        $url = ($object->slug == 'index')
+            ? url('/')
+            : url($object->href);
+        $url = trim($url, '/');
+        $url .= (config('meta.trailing_slash')) ? '/' : '';
 
         return new Graph(
             [
@@ -163,11 +167,7 @@ class ItemsService implements ItemsServiceContract
                 'description' => ($description) ? $description : '',
                 'properties' => array_merge(
                     [
-                        'url' => ($object->slug == 'index')
-                            ? url('/')
-                            : url($object->href).(config('meta.trailing_slash')
-                                ? '/'
-                                : ''),
+                        'url' => $url,
                     ],
                     $imageData
                 ),
@@ -214,13 +214,9 @@ class ItemsService implements ItemsServiceContract
      */
     protected function getTagValue($object, string $key): string
     {
-        $data = config('meta.tags.'.$key);
+        $data = config('meta.tags.'.$key, []);
 
-        if (! $data) {
-            return '';
-        }
-
-        foreach ($data['meta'] as $tagKey) {
+        foreach ($data['meta'] ?? [] as $tagKey) {
             $meta = $object->meta->where('key', $tagKey)->first();
 
             if ($meta && $meta->value != '') {
@@ -228,7 +224,7 @@ class ItemsService implements ItemsServiceContract
             }
         }
 
-        foreach ($data['fields'] as $objectField) {
+        foreach ($data['fields'] ?? [] as $objectField) {
             $value = $object[$objectField];
 
             if ($value) {
