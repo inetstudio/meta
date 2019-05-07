@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+/**
+ * Class CreateMetaTables.
+ */
+class CreateMetaTables extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
+    {
+        Schema::create('meta', function (Blueprint $table) {
+            $table->increments('id');
+            $table->morphs('metable');
+            $table->string('key', 128);
+            $table->text('value');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['metable_id', 'metable_type']);
+            $table->index('key');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down()
+    {
+        Schema::drop('meta');
+    }
+}
