@@ -109,14 +109,14 @@ trait HasMeta
      * Получаем мета тег.
      *
      * @param  string  $key
-     * @param  null  $default
+     * @param $default
      * @param  bool  $returnObject
      *
-     * @return mixed
+     * @return mixed|null
      *
      * @throws BindingResolutionException
      */
-    public function getMeta($key, $default = null, $returnObject = false)
+    public function getMeta(string $key, $default = null, bool $returnObject = false)
     {
         $builder = $this->meta()
             ->where('key', $key);

@@ -36,17 +36,17 @@ class ItemsService implements ItemsServiceContract
             $tags['canonical'] = $this->getCanonical($object);
         }
 
-        $tags['csrf-token'] = $this->getCSRFMeta();
+        $tags['csrf-token'] = $this->getCsrfMeta();
 
         return $tags;
     }
 
     /**
-     * Возвращаем CSRF мета тег.
+     * Возвращаем csrf мета тег.
      *
      * @return MiscTags
      */
-    public function getCSRFMeta(): MiscTags
+    public function getCsrfMeta(): MiscTags
     {
         return new MiscTags(
             [
@@ -212,7 +212,7 @@ class ItemsService implements ItemsServiceContract
      *
      * @return string
      */
-    private function getTagValue($object, string $key): string
+    protected function getTagValue($object, string $key): string
     {
         $data = config('meta.tags.'.$key);
 
@@ -247,7 +247,7 @@ class ItemsService implements ItemsServiceContract
      *
      * @return string
      */
-    private function getImagePath($object, string $key): string
+    protected function getImagePath($object, string $key): string
     {
         $data = config('meta.tags.'.$key);
 

@@ -28,7 +28,7 @@ interface ItemsServiceContract
      *
      * @return MiscTags
      */
-    public function getCSRFMeta(): MiscTags;
+    public function getCsrfMeta(): MiscTags;
 
     /**
      * Возвращаем заголовок.
