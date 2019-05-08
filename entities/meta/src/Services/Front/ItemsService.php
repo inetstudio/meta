@@ -180,13 +180,7 @@ class ItemsService implements ItemsServiceContract
      */
     public function getCanonical($object): MiscTags
     {
-        $canonical = $this->getTagValue($object, 'canonical');
-
-        if ($canonical) {
-            $url = trim($canonical, '/').(config('meta.trailing_slash') ? '/' : '');
-        } else {
-            $url = $this->getUrl($object);
-        }
+        $url = $this->getUrl($object);
 
         return new MiscTags(
             [
@@ -244,16 +238,18 @@ class ItemsService implements ItemsServiceContract
             return '';
         }
 
-        foreach ($data as $image => $conversion) {
+        foreach ($data as $image => $conversions) {
             if (! $object->hasMedia($image)) {
                 continue;
             }
 
-            if ($conversion) {
-                return url($object->getFirstMediaUrl($image, $conversion));
-            } else {
-                return url($object->getFirstMediaUrl($image));
+            foreach ($conversions as $conversion) {
+                if ($conversion && $object->getFirstMedia($image)->hasGeneratedConversion($conversion)) {
+                    return url($object->getFirstMediaUrl($image, $conversion));
+                }
             }
+
+            return url($object->getFirstMediaUrl($image));
         }
 
         return '';
@@ -268,14 +264,20 @@ class ItemsService implements ItemsServiceContract
      */
     protected function getUrl($object): string
     {
-        $url = ($object->slug == 'index')
-            ? url('/')
-            : url($object->href);
+        $canonical = $this->getTagValue($object, 'canonical');
 
-        $url = trim($url, '/');
-        $url .= (config('meta.trailing_slash')) ? '/' : '';
-        $url = str_replace('www.', '', $url);
+        if ($canonical) {
+            $url = trim($canonical, '/').(config('meta.trailing_slash') ? '/' : '');
+        } else {
+            $url = ($object->slug == 'index')
+                ? url('/')
+                : url($object->href);
 
+            $url = trim($url, '/');
+            $url .= (config('meta.trailing_slash')) ? '/' : '';
+            $url = str_replace('www.', '', $url);
+
+        }
         return $url;
     }
 }
