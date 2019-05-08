@@ -234,17 +234,13 @@ class ItemsService implements ItemsServiceContract
     {
         $data = config('meta.tags.'.$key);
 
-        if (! $data) {
-            return '';
-        }
-
-        foreach ($data as $image => $conversions) {
+        foreach ($data ?? [] as $image => $conversions) {
             if (! $object->hasMedia($image)) {
                 continue;
             }
 
             foreach ($conversions as $conversion) {
-                if ($conversion && $object->getFirstMedia($image)->hasGeneratedConversion($conversion)) {
+                if ($object->getFirstMedia($image)->hasGeneratedConversion($conversion)) {
                     return url($object->getFirstMediaUrl($image, $conversion));
                 }
             }
