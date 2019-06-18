@@ -267,7 +267,7 @@ trait HasMeta
     {
         static::$dispatcher->dispatch('inetstudio.meta.syncing', [$this, $meta]);
 
-        foreach ($meta as $key => $value) {
+        foreach ($meta ?? [] as $key => $value) {
             if ($value === '') {
                 $this->deleteMeta($key);
             } else {
