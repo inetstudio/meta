@@ -39,7 +39,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
         if (! empty($meta)) {
             $item->syncMeta($meta);
         } else {
-            $item->detachMeta($item->meta);
+            $item->detachMeta($item->getMetaList());
         }
     }
 }

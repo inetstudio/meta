@@ -245,7 +245,7 @@ trait HasMeta
     {
         static::$dispatcher->dispatch('inetstudio.meta.attaching', [$this, $meta]);
 
-        foreach ($meta as $key => $value) {
+        foreach ($meta ?? [] as $key => $value) {
             $this->updateMeta($key, $value);
         }
 
@@ -293,7 +293,9 @@ trait HasMeta
     {
         static::$dispatcher->dispatch('inetstudio.meta.detaching', [$this, $meta]);
 
-        $this->deleteAllMeta();
+        foreach ($meta ?? [] as $key => $value) {
+            $this->deleteMeta($key);
+        }
 
         static::$dispatcher->dispatch('inetstudio.meta.detached', [$this, $meta]);
 
@@ -396,17 +398,5 @@ trait HasMeta
         return $this->meta()
             ->where('key', $key)
             ->delete();
-    }
-
-    /**
-     * Удаляем все мета теги.
-     *
-     * @return mixed
-     *
-     * @throws BindingResolutionException
-     */
-    protected function deleteAllMeta()
-    {
-        return $this->meta()->delete();
     }
 }
