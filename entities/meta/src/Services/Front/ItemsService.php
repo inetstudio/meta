@@ -272,8 +272,8 @@ class ItemsService implements ItemsServiceContract
             $url = trim($url, '/');
             $url .= (config('meta.trailing_slash')) ? '/' : '';
             $url = str_replace('www.', '', $url);
-
         }
+
         return $url;
     }
 }
