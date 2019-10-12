@@ -10,8 +10,7 @@
     }
   ],
   "require": {
-    "arcanedev/seo-helper": "^2.0",
-    "inetstudio/admin-panel": "^6.0"
+    "arcanedev/seo-helper": "^2.0"
   },
   "autoload": {
     "psr-4": {
