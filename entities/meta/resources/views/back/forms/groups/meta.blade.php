@@ -45,7 +45,7 @@
                 ],
             ]) !!}
 
-            {!! Form::radios('meta[robots]', $item->getMeta('robots'), [
+            {!! Form::radios('meta[robots]', $item->getMeta('robots', 'noindex, nofollow'), [
                 'label' => [
                     'title' => 'Индексировать',
                 ],
