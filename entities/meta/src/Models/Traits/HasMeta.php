@@ -143,7 +143,7 @@ trait HasMeta
     public function scopeWithAllMeta(Builder $query, $meta): Builder
     {
         $meta = $this->isMetaStringBased($meta)
-            ? $meta : $this->hydrateMeta($meta)->pluck('key');
+            ? $meta : $this->hydrateMeta($meta)->pluck('key')->toArray();
 
         collect($meta)->each(
             function ($metaItem) use ($query) {
@@ -172,7 +172,7 @@ trait HasMeta
     public function scopeWithAnyMeta(Builder $query, $meta): Builder
     {
         $meta = $this->isMetaStringBased($meta)
-            ? $meta : $this->hydrateMeta($meta)->pluck('key');
+            ? $meta : $this->hydrateMeta($meta)->pluck('key')->toArray();
 
         return $query->whereHas(
             'meta',
@@ -210,7 +210,7 @@ trait HasMeta
     public function scopeWithoutMeta(Builder $query, $meta): Builder
     {
         $meta = $this->isMetaStringBased($meta)
-            ? $meta : $this->hydrateMeta($meta)->pluck('key');
+            ? $meta : $this->hydrateMeta($meta)->pluck('key')->toArray();
 
         return $query->whereDoesntHave(
             'meta',
