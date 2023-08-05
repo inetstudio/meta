@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "inetstudio/seo-helper": "^5.0"
+    "inetstudio/seo-helper": "^10.0"
   },
   "autoload": {
     "psr-4": {
